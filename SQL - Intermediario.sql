@@ -164,4 +164,48 @@ SELECT TOP 100 PA.AddressID, PA.City, PS.StateProvinceID, PS.CountryRegionCode
 FROM Person.Address AS PA
 INNER JOIN Person.StateProvince as PS ON PS.StateProvinceID = PA.StateProvinceID;
 
-SELECT * FROM Person.Person;
+-- LEFT JOIN
+
+-- Buscar pessoas com cartões de crédito registrado
+
+SELECT *
+FROM Person.Person AS PP 
+LEFT JOIN Sales.PersonCreditCard AS PC ON PP.BusinessEntityID = PC.BusinessEntityID
+WHERE PC.BusinessEntityID is null
+
+-- INNER JOIN : 19118
+-- LEFT JOIN : 19972
+
+-- UNION
+
+SELECT ProductID, Name, ProductNumber
+FROM Production.Product
+WHERE NAME LIKE '%Chain%'
+UNION
+SELECT ProductID, Name, ProductNumber
+FROM Production.Product
+WHERE NAME LIKE '%Decal%'
+
+SELECT FirstName, Title, MiddleName
+FROM Person.Person
+WHERE TITLE = 'Mr.'
+UNION
+SELECT FirstName, Title, MiddleName
+FROM Person.Person
+WHERE MiddleName = 'A'
+
+-- DATEPART, TIMESTAMP
+
+SELECT SalesOrderID, DATEPART(MONTH, OrderDate) as "Mês"
+FROM Sales.SalesOrderHeader
+
+SELECT AVG(TotalDue) as "Média", DATEPART(DAY, OrderDate) AS "Mês"
+FROM Sales.SalesOrderHeader
+GROUP BY DATEPART(DAY, OrderDate) 
+ORDER BY Mês asc;
+
+SELECT AVG(LastReceiptCost) as "Media", DATEPART(MONTH, LastReceiptDate) AS "Mes"
+FROM Purchasing.ProductVendor
+GROUP BY DATEPART(MONTH, LastReceiptDate)
+ORDER BY Mes ASC;
+
