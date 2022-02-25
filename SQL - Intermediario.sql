@@ -113,3 +113,55 @@ FROM Sales.SalesOrderDetail
 GROUP BY ProductID
 HAVING AVG(LineTotal) < 1000000
 ORDER BY Total desc;
+
+-- AS
+
+-- DESAFIO 1
+-- Encontrar o FirstName e o LastName Person.Person e renomear para PT-BR.
+
+SELECT FirstName as "Primeiro Nome", LastName as "Sobrenome"
+FROM Person.Person;
+
+-- DESAFIO 2
+-- Encontrar a coluna "Product Number" e renomeá-la para PT-BR.
+
+SELECT ProductNumber as "Número do Produto"
+FROM Production.Product
+
+--DESAFIO 3
+-- Encontrar a coluna "SalesOrderDetails" e renomear para "Preço Unitário"
+
+SELECT UnitPrice as "Preço Unitário"
+FROM Sales.SalesOrderDetail
+
+-- INNER JOIN // OUTER JOIN // SELF-JOIN
+
+SELECT P.BusinessEntityID, P.FirstName, P.LastName, PE.EmailAddress
+FROM Person.Person AS P
+INNER JOIN Person.EmailAddress AS PE ON P.BusinessEntityID = PE.BusinessEntityID;
+
+-- Preço do Produto, Nome do Produto e sub-categoria;
+
+SELECT TOP 100 PR.Name, PR.ListPrice, PC.Name
+FROM Production.Product as PR
+INNER JOIN Production.ProductSubcategory as PC on PC.ProductSubcategoryID = PR.ProductSubcategoryID
+
+SELECT TOP 100 City
+FROM Person.BusinessEntityAddress AS BA
+INNER JOIN PERSON.Address AS PA ON PA.AddressID = BA.AddressID
+
+-- DESAFIO 1
+-- BusinessEntityId, Name, PhoneNumberTypeId, PhoneNumber;
+
+SELECT TOP 100 PH.BusinessEntityID, PT.Name, PT.PhoneNumberTypeID, PH.PhoneNumber
+FROM Person.PhoneNumberType as PT
+INNER JOIN Person.PersonPhone as PH ON PH.PhoneNumberTypeID = PT.PhoneNumberTypeID;
+
+-- DESAFIO 2
+-- ADDRESSID, CITY, STATEPROVINCEID, NOME DO ESTADO
+
+SELECT TOP 100 PA.AddressID, PA.City, PS.StateProvinceID, PS.CountryRegionCode
+FROM Person.Address AS PA
+INNER JOIN Person.StateProvince as PS ON PS.StateProvinceID = PA.StateProvinceID;
+
+SELECT * FROM Person.Person;
